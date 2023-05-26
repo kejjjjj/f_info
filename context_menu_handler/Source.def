@@ -1,0 +1,5 @@
+LIBRARY
+EXPORTS
+DllRegisterServer PRIVATE
+DllGetClassObject PRIVATE
+DllUnregisterServer PRIVATE

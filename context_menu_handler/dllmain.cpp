@@ -1,8 +1,5 @@
 
-
-#include <windows.h>
-#include <shlobj.h>
-#include <string>
+#include "reg_helpers.hpp"
 
 // Function to open Command Prompt and print the selected file name
 void OpenCmdWithSelectedFile(const std::wstring& filePath)
@@ -10,8 +7,10 @@ void OpenCmdWithSelectedFile(const std::wstring& filePath)
     std::wstring command = L"cmd.exe /c echo " + filePath;
     ShellExecuteW(NULL, L"open", L"cmd.exe", command.c_str(), NULL, SW_SHOW);
 }
-
-const CLSID CLSID_HelloContextMenu = { 0x3213BA07, 0x4E9D, 0x48B9, 0xABDA, 0x381BD6AC9510 };
+//{3213BA07-4E9D-48B9-ABDA-381BD6AC9510}
+// {1137CA2D-6141-4126-8302-0FBE0619B3CA}
+static const GUID CLSID_HelloContextMenu =
+{ 0x1137ca2d, 0x6141, 0x4126, { 0x83, 0x2, 0xf, 0xbe, 0x6, 0x19, 0xb3, 0xca } };
 
 // Context Menu Handler class
 class HelloContextMenuHandler : public IContextMenu
@@ -25,6 +24,8 @@ public:
     // IUnknown methods
     STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
     {
+        MessageBoxA(NULL, "QueryInterface", "ye", MB_ICONSTOP);
+
         if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, IID_IContextMenu))
         {
             *ppv = static_cast<IContextMenu*>(this);
@@ -48,6 +49,8 @@ public:
     // IContextMenu methods
     STDMETHODIMP QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags)
     {
+        MessageBoxA(NULL, "QueryContextMenu", "ye", MB_ICONSTOP);
+
         if (uFlags & CMF_DEFAULTONLY)
             return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
 
@@ -57,6 +60,8 @@ public:
 
     STDMETHODIMP InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
     {
+        MessageBoxA(NULL, "InvokeCommand", "ye", MB_ICONSTOP);
+
         if (HIWORD(lpici->lpVerb))
             return E_INVALIDARG;
 
@@ -69,6 +74,8 @@ public:
 
     STDMETHODIMP GetCommandString(UINT_PTR idCmd, UINT uFlags, UINT* pwReserved, LPSTR pszName, UINT cchMax)
     {
+        MessageBoxA(NULL, "GetCommandString", "ye", MB_ICONSTOP);
+
         if (uFlags & GCS_HELPTEXT)
         {
             if (idCmd == 0)
@@ -80,6 +87,7 @@ public:
 
         return E_INVALIDARG;
     }
+
 };
 
 // DLL Entry Point
@@ -89,8 +97,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 }
 
 // Entry point for creating the context menu handler
-STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
+_Check_return_ STDAPI DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Outptr_ LPVOID FAR* ppv)
 {
+    MessageBoxA(NULL, "DllGetClassObject", "ye", MB_ICONSTOP);
+
     *ppv = NULL;
     if (IsEqualIID(rclsid, CLSID_HelloContextMenu))
     {
@@ -105,35 +115,34 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 }
 
 // Entry point for registering the context menu handler
-extern "C" __declspec(dllexport) long DllRegisterServer()
+STDAPI DllRegisterServer()
 {
-    MessageBoxA(NULL, "HUH", "LOOOL", MB_ICONSTOP);
-
+    //C:\Users\luukas230\source\repos\f_info\x64\Release\f_info.exe "%1"
     HKEY hKey;
-    LONG lResult = RegCreateKeyW(HKEY_CLASSES_ROOT, L"*\\shell\\copy_data", &hKey);
-    if (lResult != ERROR_SUCCESS)
-        return HRESULT_FROM_WIN32(lResult);
+    HKEY shell;
+    hKey = NewRegistryKey(HKEY_CLASSES_ROOT, L"*\\shell\\copy_data");
 
-    WCHAR szModule[MAX_PATH];
-    if (GetModuleFileNameW(NULL, szModule, ARRAYSIZE(szModule)) == 0)
-        return HRESULT_FROM_WIN32(GetLastError());
+    NewRegistryString(hKey, L"MUIVerb", L"Datagrabber"); //identifier name in the menu
+    NewRegistryString(hKey, L"SubCommands", L""); //the key needs to be empty
 
-    std::wstring command = std::wstring(szModule) + L" \"%1\"";
-    lResult = RegSetValueExW(hKey, NULL, 0, REG_SZ, (const BYTE*)L"copy_data", sizeof(L"copy_data"));
-    if (lResult != ERROR_SUCCESS)
-        return HRESULT_FROM_WIN32(lResult);
 
-    HKEY hCommandKey;
-    lResult = RegCreateKeyW(hKey, L"command", &hCommandKey);
-    if (lResult != ERROR_SUCCESS)
-        return HRESULT_FROM_WIN32(lResult);
+    shell = NewRegistryKey(hKey, L"shell");
+    hKey = NewRegistryKey(shell, L"copy_to_clipboard");
+    
+    NewRegistryString(hKey, L"MUIVerb", L"Copy To Clipboard"); //identifier name in the menu
+    hKey = NewRegistryKey(hKey, L"command");
+    EditRegistryStringDefault(hKey, L"C:\\Users\\luukas230\\source\\repos\\f_info\\x64\\Release\\f_info.exe \"%1 /default\""); //identifier name in the menu
 
-    lResult = RegSetValueExW(hCommandKey, NULL, 0, REG_SZ, (const BYTE*)command.c_str(), (DWORD)((command.size() + 1) * sizeof(wchar_t)));
-    if (lResult != ERROR_SUCCESS)
-        return HRESULT_FROM_WIN32(lResult);
+    hKey = shell;
 
-    RegCloseKey(hCommandKey);
+    hKey = NewRegistryKey(shell, L"get_md5_hash");
+
+    NewRegistryString(hKey, L"MUIVerb", L"Copy MD5"); //identifier name in the menu
+    hKey = NewRegistryKey(hKey, L"command");
+    EditRegistryStringDefault(hKey, L"C:\\Users\\luukas230\\source\\repos\\f_info\\x64\\Release\\f_info.exe \"%1 -md5\""); //identifier name in the menu
+
     RegCloseKey(hKey);
+    RegCloseKey(shell);
 
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 
@@ -143,7 +152,7 @@ extern "C" __declspec(dllexport) long DllRegisterServer()
 // Entry point for unregistering the context menu handler
 STDAPI DllUnregisterServer()
 {
-    RegDeleteTreeW(HKEY_CLASSES_ROOT, L"*\\shell\\Hello");
+    RegDeleteTreeW(HKEY_CLASSES_ROOT, L"*\\shell\\copy_data");
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
     return S_OK;
 }
