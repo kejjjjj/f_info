@@ -155,18 +155,16 @@ std::string filetime_to_text(const LPFILETIME p)
 	return SystemTimeToString(&systime);
 
 }
-std::optional<file_data_s> getfile(const std::string& filepath)
+file_data_s getfile(const std::string& filepath)
 {
 	if (!file_exists(filepath)) {
 		throw std::exception(std::format("{} is not a valid file!", filepath).c_str());
-		return std::nullopt;
 	}
 
 	HANDLE handle = handle_for_file(filepath, GENERIC_READ);
 
 	if (handle == INVALID_HANDLE_VALUE) {
 		throw std::exception(std::format("an error occurred when opening the file:\n{}", get_last_error()).c_str());
-		return std::nullopt;
 	}
 
 	file_data_s data(1, 1, 1);
@@ -176,7 +174,6 @@ std::optional<file_data_s> getfile(const std::string& filepath)
 
 	if (GetFileTime(handle, data.lpCreationTime.get(), data.lpLastAccessTime.get(), data.lpLastWriteTime.get()) == NULL) {
 		throw std::exception(std::format("an error occurred when trying to access the file data:\n{}", get_last_error()).c_str());
-		return std::nullopt;
 	}
 
 	CloseHandle(handle);

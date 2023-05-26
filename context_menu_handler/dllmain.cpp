@@ -131,7 +131,7 @@ STDAPI DllRegisterServer()
     
     NewRegistryString(hKey, L"MUIVerb", L"Copy To Clipboard"); //identifier name in the menu
     hKey = NewRegistryKey(hKey, L"command");
-    EditRegistryStringDefault(hKey, L"C:\\Users\\luukas230\\source\\repos\\f_info\\x64\\Release\\f_info.exe \"%1 /default\""); //identifier name in the menu
+    EditRegistryStringDefault(hKey, L"D:\\what_notgames\\f_info\\x64\\Release\\f_info.exe %1 -default"); //identifier name in the menu
 
     hKey = shell;
 
@@ -139,7 +139,7 @@ STDAPI DllRegisterServer()
 
     NewRegistryString(hKey, L"MUIVerb", L"Copy MD5"); //identifier name in the menu
     hKey = NewRegistryKey(hKey, L"command");
-    EditRegistryStringDefault(hKey, L"C:\\Users\\luukas230\\source\\repos\\f_info\\x64\\Release\\f_info.exe \"%1 -md5\""); //identifier name in the menu
+    EditRegistryStringDefault(hKey, L"D:\\what_notgames\\f_info\\x64\\Release\\f_info.exe %1 -md5"); //identifier name in the menu
 
     RegCloseKey(hKey);
     RegCloseKey(shell);

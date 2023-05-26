@@ -130,14 +130,19 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>Advapi32.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="file_utilities.cpp" />
     <ClCompile Include="f_info.cpp" />
+    <ClCompile Include="general_information.cpp" />
+    <ClCompile Include="md5_hash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="file_utilities.hpp" />
+    <ClInclude Include="f_info.hpp" />
+    <ClInclude Include="general_information.hpp" />
     <ClInclude Include="pch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

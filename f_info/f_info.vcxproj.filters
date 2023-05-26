@@ -16,6 +16,9 @@
     <Filter Include="Source Files\file">
       <UniqueIdentifier>{784a8bdc-1afe-40ea-b872-6f8237ccf063}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\functions">
+      <UniqueIdentifier>{ed0a28c0-ff10-4b8e-90b2-e0269757c28d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="f_info.cpp">
@@ -24,6 +27,12 @@
     <ClCompile Include="file_utilities.cpp">
       <Filter>Source Files\file</Filter>
     </ClCompile>
+    <ClCompile Include="md5_hash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="general_information.cpp">
+      <Filter>Source Files\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.hpp">
@@ -31,6 +40,12 @@
     </ClInclude>
     <ClInclude Include="file_utilities.hpp">
       <Filter>Source Files\file</Filter>
+    </ClInclude>
+    <ClInclude Include="general_information.hpp">
+      <Filter>Source Files\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="f_info.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
