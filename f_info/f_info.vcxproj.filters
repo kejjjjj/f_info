@@ -33,6 +33,9 @@
     <ClCompile Include="general_information.cpp">
       <Filter>Source Files\functions</Filter>
     </ClCompile>
+    <ClCompile Include="md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.hpp">
@@ -45,6 +48,12 @@
       <Filter>Source Files\functions</Filter>
     </ClInclude>
     <ClInclude Include="f_info.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="md5.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="md5_hash.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

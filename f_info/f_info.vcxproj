@@ -137,12 +137,15 @@
     <ClCompile Include="file_utilities.cpp" />
     <ClCompile Include="f_info.cpp" />
     <ClCompile Include="general_information.cpp" />
+    <ClCompile Include="md5.cpp" />
     <ClCompile Include="md5_hash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="file_utilities.hpp" />
     <ClInclude Include="f_info.hpp" />
     <ClInclude Include="general_information.hpp" />
+    <ClInclude Include="md5.hpp" />
+    <ClInclude Include="md5_hash.hpp" />
     <ClInclude Include="pch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

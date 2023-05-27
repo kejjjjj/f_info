@@ -8,6 +8,10 @@ inline std::unordered_map<std::string, std::function<std::string(const std::stri
 	{"-default", [](const std::string& a) -> std::string
 	{
 		return general_get_info(a);
+	}},
+	{"-md5", [](const std::string& a) -> std::string
+	{
+		return get_md5(a);
 	}}
 
 
