@@ -20,7 +20,8 @@ int main(int argc, char** argv)
         if (it == tool_features.end())
             throw std::exception(std::format("\"{}\" is not a valid argument", argv[1]).c_str());
 
-        CopyToClipboard(it->second(std::string(argv[1])));
+        if(const auto v = it->second(std::string(argv[1])))
+            CopyToClipboard(v.value());
 
     }
     catch (std::exception& ex) {

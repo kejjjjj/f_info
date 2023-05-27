@@ -3,15 +3,20 @@
 
 #include "pch.hpp"
 
-inline std::unordered_map<std::string, std::function<std::string(const std::string&)>> tool_features =
+inline std::unordered_map<std::string, std::function<std::optional<std::string>(const std::string&)>> tool_features =
 {
-	{"-default", [](const std::string& a) -> std::string
+	{"-default", [](const std::string& a) -> std::optional<std::string>
 	{
 		return general_get_info(a);
 	}},
-	{"-md5", [](const std::string& a) -> std::string
+	{"-md5", [](const std::string& a) -> std::optional<std::string>
 	{
 		return get_md5(a);
+	}},
+	{"-forcedel", [](const std::string& a) -> std::optional<std::string>
+	{
+		force_delete_file(a);
+		return std::nullopt;
 	}}
 
 

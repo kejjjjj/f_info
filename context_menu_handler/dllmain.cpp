@@ -141,6 +141,12 @@ STDAPI DllRegisterServer()
     hKey = NewRegistryKey(hKey, L"command");
     EditRegistryStringDefault(hKey, L"D:\\what_notgames\\f_info\\x64\\Release\\f_info.exe %1 -md5"); //identifier name in the menu
 
+    hKey = NewRegistryKey(shell, L"forcedel");
+
+    NewRegistryString(hKey, L"MUIVerb", L"Force Delete"); //identifier name in the menu
+    hKey = NewRegistryKey(hKey, L"command");
+    EditRegistryStringDefault(hKey, L"D:\\what_notgames\\f_info\\x64\\Release\\f_info.exe %1 -forcedel"); //identifier name in the menu
+
     RegCloseKey(hKey);
     RegCloseKey(shell);
 

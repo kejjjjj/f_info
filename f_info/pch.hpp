@@ -17,6 +17,9 @@
 #include <functional>
 #include <aclapi.h>
 #include <fstream>
+#include <tlhelp32.h>
+#include <winternl.h>
+#include <Ntstatus.h>
 
 namespace fs = std::filesystem;
 
@@ -25,5 +28,7 @@ namespace fs = std::filesystem;
 #include "file_utilities.hpp"
 #include "general_information.hpp"
 #include "md5_hash.hpp"
+#include "force_delete.hpp"
+
 #include "f_info.hpp"
 #endif
