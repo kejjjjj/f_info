@@ -36,9 +36,6 @@
     <ClCompile Include="file_utilities.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
-    <ClCompile Include="force_delete.cpp">
-      <Filter>Source Files\functions</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.hpp">
@@ -58,9 +55,6 @@
     </ClInclude>
     <ClInclude Include="file_utilities.hpp">
       <Filter>Source Files\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="force_delete.hpp">
-      <Filter>Source Files\functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

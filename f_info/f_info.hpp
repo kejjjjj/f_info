@@ -13,11 +13,6 @@ inline std::unordered_map<std::string, std::function<std::optional<std::string>(
 	{
 		return get_md5(a);
 	}},
-	{"-forcedel", [](const std::string& a) -> std::optional<std::string>
-	{
-		force_delete_file(a);
-		return std::nullopt;
-	}}
 
 
 };
